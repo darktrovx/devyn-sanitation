@@ -7,9 +7,9 @@ local Truck = nil
 
 
 RegisterNetEvent("garbage:attemptStart", function()
-    if exports["devyn-groups"]:IsGroupLeader() then 
-        if exports["devyn-groups"]:GetJobStage() == "WAITING" then
-            local groupID = exports["devyn-groups"]:GetGroupID()
+    if exports["ps-playergroups"]:IsGroupLeader() then 
+        if exports["ps-playergroups"]:GetJobStage() == "WAITING" then
+            local groupID = exports["ps-playergroups"]:GetGroupID()
             
             local model = GetHashKey("trash")
             RequestModel(model)
@@ -27,9 +27,9 @@ RegisterNetEvent("garbage:attemptStart", function()
 end)
 
 RegisterNetEvent("garbage:attemptStop", function()
-    if exports["devyn-groups"]:IsGroupLeader() then 
-        if exports["devyn-groups"]:GetJobStage() == "GARBAGE RUN" then
-            local groupID = exports["devyn-groups"]:GetGroupID()
+    if exports["ps-playergroups"]:IsGroupLeader() then 
+        if exports["ps-playergroups"]:GetJobStage() == "GARBAGE RUN" then
+            local groupID = exports["ps-playergroups"]:GetGroupID()
             TriggerServerEvent("garbage:stopGroupJob", groupID)
         else 
             QBCore.Functions.Notify("Your group isn't doing a run!", "error")
@@ -175,7 +175,7 @@ function TossTrash()
         HasBag = false
         DeliverAnim()
         Wait(1500)
-        TriggerServerEvent("garbage:updateBags", exports["devyn-groups"]:GetGroupID())
+        TriggerServerEvent("garbage:updateBags", exports["ps-playergroups"]:GetGroupID())
     end, function() -- Cancel
        
     end)

@@ -23,17 +23,17 @@ RegisterServerEvent("garbage:createGroupJob", function(groupID)
             Jobs[jobID]["route"] = PickRandomRoute()
             Jobs[jobID]["pickupAmount"] = math.random(4, 6)
             local plate = GetVehicleNumberPlateText(car)
-            local members = exports["devyn-groups"]:getGroupMembers(groupID)
+            local members = exports["ps-playergroups"]:getGroupMembers(groupID)
             for i=1, #members do 
                 TriggerClientEvent('vehiclekeys:client:SetOwner', members[i], plate)
                 TriggerClientEvent("garbage:updatePickup", members[i], Routes.Locations[Jobs[jobID]["route"]]["coords"])
                 Wait(100)
                 TriggerClientEvent("garbage:startRoute", members[i], NetworkGetNetworkIdFromEntity(car))
             end
-            exports["devyn-groups"]:setJobStatus(groupID, "GARBAGE RUN")
+            exports["ps-playergroups"]:setJobStatus(groupID, "GARBAGE RUN")
         end
 
-        exports["devyn-groups"]:CreateBlipForGroup(groupID, "garbagePickup", {
+        exports["ps-playergroups"]:CreateBlipForGroup(groupID, "garbagePickup", {
             label = "Pickup", 
             coords = Routes.Locations[Jobs[jobID]["route"]]["coords"], 
             sprite = 162, 
@@ -55,9 +55,9 @@ RegisterServerEvent("garbage:stopGroupJob", function(groupID)
     if #(truckCoords - Config.Blip) < 30 then
         DeleteEntity(Jobs[jobID]["truckID"])
 
-        exports["devyn-groups"]:RemoveBlipForGroup(groupID, "garbagePickup")
-        local members = exports["devyn-groups"]:getGroupMembers(groupID)
-        local payout = math.floor((Jobs[jobID]["totalCollected"] * 50) / exports["devyn-groups"]:getGroupSize(groupID) + 0.5)
+        exports["ps-playergroups"]:RemoveBlipForGroup(groupID, "garbagePickup")
+        local members = exports["ps-playergroups"]:getGroupMembers(groupID)
+        local payout = math.floor((Jobs[jobID]["totalCollected"] * 50) / exports["ps-playergroups"]:getGroupSize(groupID) + 0.5)
 
         for i=1, #members do
             TriggerClientEvent("garbage:endRoute", members[i])
@@ -69,7 +69,7 @@ RegisterServerEvent("garbage:stopGroupJob", function(groupID)
         end
 
         Jobs[jobID] = nil
-        exports["devyn-groups"]:setJobStatus(groupID, "WAITING")
+        exports["ps-playergroups"]:setJobStatus(groupID, "WAITING")
     else 
         TriggerClientEvent("QBCore:Notify", src "Your truck is not inside the facility", "error")
     end
@@ -88,7 +88,7 @@ RegisterServerEvent("garbage:updateBags", function(groupID)
             newRoute = PickRandomRoute()
             Wait(100)
         end
-        local members = exports["devyn-groups"]:getGroupMembers(groupID)
+        local members = exports["ps-playergroups"]:getGroupMembers(groupID)
         for i=1, #members do
             TriggerClientEvent("QBCore:Notify", members[i], "All bags collected for this dumpster", "primary")
             TriggerClientEvent('garage:pickupClean', members[i])
@@ -102,8 +102,8 @@ RegisterServerEvent("garbage:updateBags", function(groupID)
             end
         end
         Jobs[jobID]["currentRoute"] = newRoute
-        exports["devyn-groups"]:RemoveBlipForGroup(groupID, "garbagePickup")
-        exports["devyn-groups"]:CreateBlipForGroup(groupID, "garbagePickup", {
+        exports["ps-playergroups"]:RemoveBlipForGroup(groupID, "garbagePickup")
+        exports["ps-playergroups"]:CreateBlipForGroup(groupID, "garbagePickup", {
             label = "Pickup", 
             coords = Routes.Locations[newRoute]["coords"], 
             sprite = 162, 
