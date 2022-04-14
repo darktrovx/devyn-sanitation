@@ -8,7 +8,7 @@ RegisterServerEvent("garbage:createGroupJob", function(groupID)
 
         local jobID = #Jobs
 
-        local TruckSpawn = Config.TruckSpawns[math.random(1. #Config.TruckSpawns)]
+        local TruckSpawn = Config.TruckSpawns[math.random(#Config.TruckSpawns)]
 
         local car = CreateVehicle("trash", TruckSpawn.x, TruckSpawn.y, TruckSpawn.z, TruckSpawn.w, true, true)
         while not DoesEntityExist(car) do
