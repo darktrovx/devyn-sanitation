@@ -210,7 +210,7 @@ CreateThread(function()
                 label = 'Start Garbage Run',
                 icon = 'fa-solid fa-circle',
                 canInteract = function()
-                    if DoingRoute return false end
+                    if DoingRoute then return false end
                     return true
                 end,
             },
